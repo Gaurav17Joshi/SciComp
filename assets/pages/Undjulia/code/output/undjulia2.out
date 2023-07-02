@@ -1,0 +1,2 @@
+ArgumentError: Package StaticArrays not found in current path.
+- Run `import Pkg; Pkg.add("StaticArrays")` to install the StaticArrays package.

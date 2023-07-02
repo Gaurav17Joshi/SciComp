@@ -1,0 +1,15 @@
+;  @ none:1 within `f`
+define double @julia_f_1160(double %0, i64 signext %1) #0 {
+top:
+; ┌ @ promotion.jl:410 within `+`
+; │┌ @ promotion.jl:381 within `promote`
+; ││┌ @ promotion.jl:358 within `_promote`
+; │││┌ @ number.jl:7 within `convert`
+; ││││┌ @ float.jl:159 within `Float64`
+       %2 = sitofp i64 %1 to double
+; │└└└└
+; │ @ promotion.jl:410 within `+` @ float.jl:408
+   %3 = fadd double %2, %0
+; └
+  ret double %3
+}

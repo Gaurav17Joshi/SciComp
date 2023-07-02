@@ -1,0 +1,156 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/SciComp/libs/highlight/styles/github.min.css"> <link rel=stylesheet  href="/SciComp/css/jtd.css"> <link rel=icon  href="/SciComp/assets/head_image1.png"> <style> /* #148 wrap long header */ .franklin-content a.header-anchor, .franklin-toc li a { word-wrap: break-word; white-space: normal; } </style> <title>Understanding Julia</title> <div class=page-wrap > <div class=side-bar > <div class=header > <a href="/SciComp/" class=title > Scientific Computing </a> </div> <label for=show-menu  class=show-menu >MENU</label> <input type=checkbox  id=show-menu  role=button > <div class=menu  id=side-menu > <ul class=menu-list > <li class="menu-list-item "><a href="/SciComp/" class="menu-list-link ">Intro</a> <li class="menu-list-item active"><a href="/SciComp/pages/Undjulia/" class="menu-list-link active">Julia</a> <li class="menu-list-item "><a href="/SciComp/pages/Page1/" class="menu-list-link ">First Page</a> <li class="menu-list-item "><a href="/SciComp/pages/menu1/" class="menu-list-link ">Code blocks</a> <li class="menu-list-item "><a href="/SciComp/menu2/" class="menu-list-link ">More goodies</a> <li class="menu-list-item "><a href="/SciComp/menu3/" class="menu-list-link ">Tags</a> <ul class="menu-list-child-list "> <li class="menu-list-item "><a href="#" class=menu-list-link >Submenu</a> </ul> </ul> </div> <div class=footer > This is <em>Just the docs</em>, adapted from the <a href="https://github.com/pmarsceill/just-the-docs" target=_blank >Jekyll theme</a>. </div> </div> <div class=main-content-wrap > <div class=main-content > <div class=main-header > <a id=github  href="/SciComp//github.com/tlienart/Franklin.jl">Franklin on GitHub</a> </div> <div class=franklin-content > <h1 id=understanding_julia ><a href="#understanding_julia" class=header-anchor >Understanding Julia</a></h1> <p>Attach image</p> <div class=franklin-toc ><ol><li><a href="#why_julia">Why Julia</a><ol><li><a href="#speed">Speed </a><li><a href="#ease_of_use">Ease of Use</a><li><a href="#multiple_dispatach">Multiple Dispatach</a></ol><li><a href="#understanding_fast_julia_code">Understanding fast julia code</a><ol><li><a href="#matrix_orientation">Matrix Orientation</a><li><a href="#stack_and_heap">Stack and Heap</a><li><a href="#mutations">Mutations</a><li><a href="#broadcasting">Broadcasting</a><li><a href="#summary">Summary</a></ol><li><a href="#compilation_and_type_inference_in_julia">Compilation and Type inference in Julia</a><ol><li><a href="#jit_compilation">Jit compilation</a><li><a href="#julias_features">Julia&#39;s Features</a><li><a href="#type_inference">Type Inference</a><li><a href="#type_specialisation_in_functions">Type Specialisation in Functions</a><li><a href="#multiple_dispatch">Multiple Dispatch</a><li><a href="#one_hot_vector_example">One Hot Vector Example</a></ol></ol></div> <h2 id=why_julia ><a href="#why_julia" class=header-anchor >Why Julia</a></h2> <p>Julia is a new language aimed at scientific computing. It is made to be both high level and fast. Julia is a fast dynamic-typed language that just-in-time &#40;JIT&#41; compiles into native code using LLVM.</p> <p>Julia uses the LLVM compiler, and yet is faster than many other languages, due to its language semantics which allows a well-written Julia program to give more opportunities to the compiler to generate efficient code and memory layouts.</p> <p>Julia has <strong>three</strong> main features that makes it a unique language to work with, specially in scientific computing:</p> <ul> <li><p>Speed</p> <li><p>Ease of Use</p> <li><p>Multiple Dispatch</p> </ul> <h3 id=speed ><a href="#speed" class=header-anchor >Speed </a></h3> <p>Julia is fast as it bypasses any sort of intermediate representation and translate code into machine native code using LLVM compiler. Comparing this with R, that uses either FORTRAN or C, or Python, that uses CPython; and you&#39;ll clearly see that Julia has a major speed advantage over other languages that are common in data science and statistics. Julia exposes the machine code to LLVM&#39;s compiler which in turn optimizes code as it wishes.</p> <h3 id=ease_of_use ><a href="#ease_of_use" class=header-anchor >Ease of Use</a></h3> <p>Julia can be as fast as C while having a very simple and intelligible syntax.</p> <p>This feature along with its speed is what Julia creators denote as &quot;the two language problem&quot; that Julia addresses. The &quot;two language problem&quot; is a very typical situation in scientific computing where a researcher or computer scientist devises an algorithm or a solution that she prototypes in an easy to code language &#40;like Python&#41; and, if it works she would code in a fast language that is not easy to code &#40;C or FORTRAN&#41;. </p> <p>Julia comes to eliminate such situations by being the same language that you prototype &#40;ease of use&#41; and implement the solution &#40;speed&#41;.</p> <p><strong>Math</strong>, julia code is closer to mathematical equations, as it lets us use unicode characters as variables or parameters. When you see code for an algorithm or for a mathematical equation you see <strong>a one-to-one relation to code and math</strong>. This is a powerful feature.</p> <h3 id=multiple_dispatach ><a href="#multiple_dispatach" class=header-anchor >Multiple Dispatach</a></h3> <p>The ability to define <strong>function behavior</strong> across many combinations of argument types via multiple dispatch. Multiple dispatch is a feature that allows a function or method to be dynamically dispatched based on the run-time &#40;dynamic&#41; type or, in the more general case, some other attribute of more than one of its arguments.</p> <p>Multiple dispatch empower users to define their own types &#40;if necessary&#41; and also allows them to extend functions and types from other users to their own special use.</p> <p>Attach video link</p> <p>Also, to cap it off, all julia libraries are written in julia, using it own code, without calling any other language.</p> <p>This part is taken from the excellent intro to julia from <a href="https://storopoli.io/Bayesian-Julia/pages/01_why_Julia/">Turing.jl website</a></p> <h2 id=understanding_fast_julia_code ><a href="#understanding_fast_julia_code" class=header-anchor >Understanding fast julia code</a></h2> <p>This part is taken from <a href="https://book.sciml.ai/notes/02-Optimizing_Serial_Code/">sciml lectures</a></p> <p>This part will explain what makes code slow and how to avoid these pitfalls. It will also go into the heart of julia and explain some key properties of the language.</p> <p>The 3 main points to keep in mind to write fast julia code is</p> <ol> <li><p>Use as few loops as possible</p> <li><p>Try to fuse as many loops as possible</p> <li><p>Reuse cache arrays as much as possible </p> </ol> <p>We will explore some important features of the Julia library to understand fast and compiler specific code:-</p> <h3 id=matrix_orientation ><a href="#matrix_orientation" class=header-anchor >Matrix Orientation</a></h3> <p>The processor works in a chain, so it before hand tries to guess which blocks of memory, we might be calling next. Thus our algorithms are faster if we grab memory along the cache line. In Julia &#40;also Fortran, Matlab&#41;, we have a matrix represented as a cache line along the column axis, ie we take the first column traverse down it, then move onto the next and so on. </p> <p>Insert image </p> <p>Thus grabbing values column wise speeds up compared to row wise as we have fewer cache misses.</p> <p>Here is an example for a column wise implimentation of matrix addition, we will keep on imporving on this code.</p> <pre><code class="julia hljs"><span class=hljs-comment ># Code for Fast matrix add along the column</span>
+A = rand(<span class=hljs-number >100</span>,<span class=hljs-number >100</span>)
+B = rand(<span class=hljs-number >100</span>,<span class=hljs-number >100</span>)
+C = rand(<span class=hljs-number >100</span>,<span class=hljs-number >100</span>)
+<span class=hljs-keyword >using</span> BenchmarkTools
+<span class=hljs-keyword >function</span> faster_matrix_add!(C,A,B)
+  <span class=hljs-keyword >for</span> j <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >100</span>, i <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >100</span>
+    C[i,j] = A[i,j] + B[i,j]
+  <span class=hljs-keyword >end</span>
+<span class=hljs-keyword >end</span>
+<span class=hljs-meta >@btime</span> faster_matrix_add!(C,A,B)</code></pre> <pre><code class="plaintext hljs">ArgumentError: Package BenchmarkTools not found in current path.
+- Run `import Pkg; Pkg.add(&quot;BenchmarkTools&quot;)` to install the BenchmarkTools package.
+</code></pre> <h3 id=stack_and_heap ><a href="#stack_and_heap" class=header-anchor >Stack and Heap</a></h3> <p>Stack and heap and two ways of arranging data in the memory. </p> <p>Making a stack requires a static allocation &#40;We should be sure of the data type, eg array of float-32&#39;s&#41;. As it is ordered, it is very clear where things are in the stack hense, it can be accessed very quickly. </p> <p>Heaps are used when we do not know the size of variable at the compile time. Heaps are a collection of pointers, which point to data locations which has a block to specify the type of data and then the actual data, or further pointers, generated during runtime. As is obvious, making a heap has a lot of cache misses and calls further down to L2, L3 caches, thus compromising on runtime.</p> <p>The <strong>problem</strong>, with stack is that, we need to have the data-type before hand, and it does not work very well for large arrays.</p> <blockquote> <p>Static arrays.jl is used to make static allocations to arrays, objects, using @Svector macros</p> </blockquote> <p><strong>Macros</strong>, are pieces of code that act on code</p> <p>This code block shows the use of Static arrays to convert the array val to a static object with known size&#40;bits&#41;. Had we not used static the array could not have proved at compile time its size, and val would have been heap allocated, but Static Arrays libraries can convert it into a static data block by looking at the contents of the array.</p> <pre><code class="julia hljs"><span class=hljs-keyword >using</span> StaticArrays
+<span class=hljs-keyword >function</span> static_inner_alloc!(C,A,B)
+  <span class=hljs-keyword >for</span> j <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >100</span>, i <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >100</span>
+    val = <span class=hljs-meta >@SVector</span> [A[i,j] + B[i,j]]
+    C[i,j] = val[<span class=hljs-number >1</span>]
+  <span class=hljs-keyword >end</span>
+<span class=hljs-keyword >end</span>
+<span class=hljs-meta >@btime</span> static_inner_alloc!(C,A,B)</code></pre> <pre><code class="plaintext hljs">ArgumentError: Package StaticArrays not found in current path.
+- Run `import Pkg; Pkg.add(&quot;StaticArrays&quot;)` to install the StaticArrays package.
+</code></pre> <h3 id=mutations ><a href="#mutations" class=header-anchor >Mutations</a></h3> <p>Many times you do need to write into an array, so how can you write into an array without performing a heap allocation? The answer is mutation. Mutation is changing the values of an already existing array. In that case, no free memory has to be found to put the array &#40;and no memory has to be freed by the garbage collector&#41;.</p> <p>This is what we did in the above codes also, and it reduces heap allocations than first making a array using <code>C &#61; similar&#40;A&#41;</code> and then allocating.</p> <p><strong>Using &#33;&#40;Bang&#41;:</strong> The bang symbol is an important part of function labeling. When we are reusing a cache array &#40;speed up things&#41;, and we are allocating the data to an already present matrix&#40;data block&#41;, we put a <strong>&#33;</strong>, as a convention to represent that we made the changes to the first input of this function. &#40;This makes code clearer&#41;. </p> <h3 id=broadcasting ><a href="#broadcasting" class=header-anchor >Broadcasting</a></h3> <p>Broadcasting is a method by which we can avoid writing loops by using <strong>. dot</strong>, to signify doing the operation over all the individual elements &#40;along best cache lines &#40;ie column major&#41;&#41;. In other programming languages &#40;python&#41;, it is also called as &quot;Vectorisation&quot;, and is necessary as in those languages, the loops has a lot of overhead.</p> <p>While julia does not have a lot of overhead in loops, <strong>broadcasting still speeds up</strong> mainly bacause of:</p> <ol> <li><p>We do not have to use any temporary variables <code>tmp &#61; A .&#43; B</code> to store the intermediates.</p> <li><p>In loops we do <code>temp&#91;i&#93; &#61; A&#91;i&#93; &#43; B&#91;i&#93;</code>, and this always checks if the bounds are breached, hence slower code. <code>@inbounds</code> can help with this though.</p> </ol> <p>Code implementations of adding matrices using Broadcasting, and it cuts the time even further.</p> <pre><code class="julia hljs">fused(A,B) = A .+ B 
+<span class=hljs-meta >@btime</span> fused(A,B);</code></pre> <pre><code class="plaintext hljs">LoadError: UndefVarError: `@btime` not defined
+in expression starting at none:1
+</code></pre> <pre><code class="julia hljs">D = similar(A)
+fused!(D,A,B) = (D .= A .+ B )
+<span class=hljs-meta >@btime</span> fused!(D,A,B);</code></pre> <pre><code class="plaintext hljs">LoadError: UndefVarError: `@btime` not defined
+in expression starting at none:1
+</code></pre> <blockquote> <p>In Julia, we can index a matrix with single index by reading it column wise. A&#91;202&#93; for 100x100 matrix is column 3 row 2 term &#40;2,3&#41;</p> </blockquote> <p>Also note that Julia allows for <strong>broadcasting the call &#40;&#41; operator</strong> as well. .&#40;&#41; will call the function element-wise on all arguments, so sin.&#40;A&#41; will be the elementwise sine function. </p> <h3 id=summary ><a href="#summary" class=header-anchor >Summary</a></h3> <ul> <li><p>Avoid cache misses by reusing values &#40;Mutation&#41;</p> <li><p>Iterate along columns &#40;prevents cache misses&#41;</p> <li><p>Avoid heap allocations in inner loops which occur when the size of things is not proven at compile-time</p> <li><p>Use fused broadcasts &#40;with mutated outputs&#41; to avoid heap allocations</p> <li><p>Array vectorization confers no special benefit in Julia because Julia loops are as fast as C or Fortran &#40;only small speedup&#41;</p> <li><p>Use views instead of slices &#40;produces copies&#41; when applicable. </p> <li><p>Avoiding heap allocations is most necessary for O&#40;n&#41; algorithms or algorithms with small arrays, &#40;in more slower algos, it gets overshadowed&#41;</p> <li><p>Use StaticArrays.jl to avoid heap allocations of small arrays in inner loops</p> </ul> <h2 id=compilation_and_type_inference_in_julia ><a href="#compilation_and_type_inference_in_julia" class=header-anchor >Compilation and Type inference in Julia</a></h2> <h3 id=jit_compilation ><a href="#jit_compilation" class=header-anchor >Jit compilation</a></h3> <p>As wikipedia puts it, Jit &#40;Just in Time&#41; compilation is is compilation of code during execution of a program &#40;at run time&#41; rather than before execution &#40;compile time&#41;. JIT compiler continuously analyses the code being executed and identifies parts of the code where the speedup gained from compilation or recompilation would outweigh the overhead of compiling that code. </p> <p>The jit compiler gets both the <strong>data type</strong>, and <strong>array size</strong>, &#40;object size&#41; of the code at the run time &#40;we have put the values&#41;, hense it compiles the code, its functions at the compile time based on this knowledge. Just like the JAX jit compilation does. </p> <p><strong>Note:</strong> llvm is the jit compiler in constrast to the gcc compiler u. In a compile time compilation, the code sets pointers for various objects and arrays, which makes it slower due to heap allocation, but when we compile at runtime, we already get the data type and size, and can use proper stacks for the code, hense jit compilation is faster.</p> <h3 id=julias_features ><a href="#julias_features" class=header-anchor >Julia&#39;s Features</a></h3> <p>Julia is not fast due to being JIT compiled, rather it is fast due to two important features:</p> <ul> <li><p>Type inference</p> <li><p>Type specialization in functions</p> </ul> <p>These two features combine and give rise to Julia&#39;s core design feature: <strong>Multiple dispatch</strong>.</p> <p>These can be <strong>summed up</strong> by saying that Julia&#39;s type inference allows it get the variable types during run time, and Julia&#39;s type specialisation in function, allows it to propagate types and create different functions for different given types. Hense, it knows the input and can identify the type of output &#40;for functions in functions&#41;, and it uses this to build a very efficient assembly code because it knows exactly what the types will be at every step.</p> <p>Multiple dispatch together with the flexible parametric type system give Julia its ability to abstractly express high-level algorithms decoupled from implementation details. As julia is always specializing its types on each function, if those functions themselves can infer the output, then the entire function can be inferred and generate optimal code, which is then optimized by the compiler and out comes an efficient function. If types can&#39;t be inferred, Julia falls back to a slower &quot;Python&quot; mode. </p> <p>Users get control over this specialization process through multiple dispatch, since it allows adding new options without any runtime cost.</p> <blockquote> <p>Julia basically decode the code during runtime, completing understanding and optimising all type and memory allocations.</p> </blockquote> <h3 id=type_inference ><a href="#type_inference" class=header-anchor >Type Inference</a></h3> <p>All data in a code has some data type and a program has to figure it out associate memory to it, carry out calculation, use it for functions. Some languages are more explicit about said types, while others try to hide the types from the user.</p> <p><strong>What Julia does</strong>: Before the Jit compilation, Julia runs a type inference algorithm which finds out types of variables. This is a hybrid method solution, where we do not have to explicitly put types for functions like c&#43;&#43;. </p> <p>Also as jit compilation the data types are figured out, and due of type propagation of functions all variables, outputs data and sizes are known, reducing heap allocations and mutiple cache misses drastically.</p> <p><strong>Julia Code</strong>: </p> <pre><code class="julia hljs">a = <span class=hljs-number >2</span>; b = <span class=hljs-number >4</span>
+a + b</code></pre> <p><strong>Result</strong>: Julia does not have the discoraging syntax of c&#43;&#43;, but still figures out the types well.</p> <p><strong>What Python does</strong>: Python allows the user to define variables without specifying, and identifies types during runtime. This leads to lots of type identification during function call at each step, leading code to slow down.</p> <p><strong>Python Code</strong>: Similar to the Julia code</p> <p><strong>Result</strong>: Nice interface, but slow code</p> <p><strong>What C&#43;&#43; does</strong>: C&#43;&#43;, asks users to explicity provide the types for all the arguments in its functions.</p> <p><strong>C&#43;&#43; Code</strong>:</p> <pre><code class="julia hljs">void add(double *a, double *b, double *c, size_t n){
+  size_t i;
+  <span class=hljs-keyword >for</span>(i = <span class=hljs-number >0</span>; i &lt; n; ++i) {
+    c[i] = a[i] + b[i];
+  }
+}</code></pre> <h3 id=type_specialisation_in_functions ><a href="#type_specialisation_in_functions" class=header-anchor >Type Specialisation in Functions</a></h3> <p>Simply Stated: Julia is able to propagate type inference through functions.</p> <p>Julia interprets functions as generic functions and produces new functions based on the given type of inputs We can see this by examining the LLVM IR &#40;IR is the Intermediate Representation&#41;</p> <pre><code class="julia hljs"><span class=hljs-keyword >using</span> InteractiveUtils
+f(x,y) = x+y
+<span class=hljs-meta >@code_llvm</span> f(<span class=hljs-number >2</span>,<span class=hljs-number >5</span>)</code></pre> <pre><code class="plaintext hljs">;  @ none:1 within `f`
+define i64 @julia_f_1158(i64 signext %0, i64 signext %1) #0 {
+top:
+; ┌ @ int.jl:87 within `+`
+   %2 = add i64 %1, %0
+; └
+  ret i64 %2
+}
+</code></pre> <pre><code class="julia hljs"><span class=hljs-meta >@code_llvm</span> f(<span class=hljs-number >2.0</span>,<span class=hljs-number >5</span>)</code></pre>
+<pre><code class="plaintext hljs">;  @ none:1 within `f`
+define double @julia_f_1160(double %0, i64 signext %1) #0 {
+top:
+; ┌ @ promotion.jl:410 within `+`
+; │┌ @ promotion.jl:381 within `promote`
+; ││┌ @ promotion.jl:358 within `_promote`
+; │││┌ @ number.jl:7 within `convert`
+; ││││┌ @ float.jl:159 within `Float64`
+       %2 = sitofp i64 %1 to double
+; │└└└└
+; │ @ promotion.jl:410 within `+` @ float.jl:408
+   %3 = fadd double %2, %0
+; └
+  ret double %3
+}
+</code></pre>
+<p>The Function takes in the inputs, and then it encounters a &#43;, and we have multiple dispatched the ouputs for &#43;, so we know the type of outputs, hense for functions using functions, we can completely go through and produce specific functions for the input data type, and get the output data type also.</p>
+<blockquote>
+<p>@code<em>llvm gives the intermediate representation, @code</em>warntype types gives type inferencing</p>
+</blockquote>
+<p>Example code for how julia deduces the output types of functions &#40;shown using @code_warntype&#41;:</p>
+<pre><code class="julia hljs"><span class=hljs-keyword >function</span> g(x,y)
+  a = <span class=hljs-number >4</span>
+  b = <span class=hljs-number >2</span>
+  c = f(x,a)
+  d = f(b,c)
+  f(d,y)
+<span class=hljs-keyword >end</span>
+
+<span class=hljs-meta >@code_warntype</span> g(<span class=hljs-number >2</span>,<span class=hljs-number >5.0</span>)</code></pre>
+<pre><code class="plaintext hljs">MethodInstance for Main.FD_SANDBOX_1674606513742163371.g(::Int64, ::Float64)
+  from g(x, y) @ Main.FD_SANDBOX_1674606513742163371 none:1
+Arguments
+  #self#::Core.Const(Main.FD_SANDBOX_1674606513742163371.g)
+  x::Int64
+  y::Float64
+Locals
+  d::Int64
+  c::Int64
+  b::Int64
+  a::Int64
+Body::Float64
+1 ─      (a = 4)
+│        (b = 2)
+│        (c = Main.FD_SANDBOX_1674606513742163371.f(x, a::Core.Const(4)))
+│        (d = Main.FD_SANDBOX_1674606513742163371.f(b::Core.Const(2), c))
+│   %5 = Main.FD_SANDBOX_1674606513742163371.f(d, y)::Float64
+└──      return %5
+
+</code></pre>
+<h3 id=multiple_dispatch ><a href="#multiple_dispatch" class=header-anchor >Multiple Dispatch</a></h3>
+<p>In a nutshell, multiple dispatch is writing a function in different ways for different types of inputs for all function arguments.</p>
+<p>A function is an object that maps a tuple of arguments to an output, and we need to have functions for different data type of arguments, or different objects. A definition of one possible behavior for a function is called a <strong>method</strong>. the signatures of method definitions can be annotated to indicate the types of arguments in addition to their number, and more than a single method definition may be provided to a function. Thus, the overall behavior of a function is a patchwork of the behaviors of its various method definitions. If the patchwork is well designed, even though the implementations of the methods may be quite different, the outward behavior of the function will appear seamless and consistent.</p>
+<p>The choice of which method to execute when a function is applied is called <strong>dispatch</strong>. Julia allows the dispatch process to choose which of a function&#39;s methods to call based on the number of arguments given, and on the types of all of the function&#39;s arguments. This is different than traditional object-oriented languages, where dispatch occurs based only on the <strong>first argument</strong>, which often has a special argument syntax, and is sometimes implied rather than explicitly written as an argument. Using** all of a function&#39;s arguments** to choose which method should be invoked, rather than just the first, is known as multiple dispatch.</p>
+<p>There isnt any general way to construct such functions in python, and in c&#43;&#43;, we have a similar thing as operator overloading &#40;also template programming&#41;, </p>
+<p>Example code for multiple dispatch in julia</p>
+<pre><code class="julia hljs"><span class=hljs-keyword >abstract type</span> Pet <span class=hljs-keyword >end</span>
+<span class=hljs-keyword >struct</span> Dog &lt;: Pet
+    name::<span class=hljs-built_in >String</span>
+<span class=hljs-keyword >end</span>
+<span class=hljs-keyword >struct</span> Cat &lt;: Pet
+    name::<span class=hljs-built_in >String</span>
+<span class=hljs-keyword >end</span>
+
+<span class=hljs-keyword >function</span> encounter(a::Pet, b::Pet)
+    verb = meets(a, b)
+    <span class=hljs-keyword >return</span> println(<span class=hljs-string >&quot;<span class=hljs-subst >$(a.name)</span> meets <span class=hljs-subst >$(b.name)</span> and <span class=hljs-variable >$verb</span>&quot;</span>)
+<span class=hljs-keyword >end</span>
+
+meets(a::Dog, b::Dog) = <span class=hljs-string >&quot;sniffs&quot;</span>;
+meets(a::Dog, b::Cat) = <span class=hljs-string >&quot;chases&quot;</span>;
+meets(a::Cat, b::Dog) = <span class=hljs-string >&quot;hisses&quot;</span>;
+meets(a::Cat, b::Cat) = <span class=hljs-string >&quot;slinks&quot;</span>;
+
+fido = Dog(<span class=hljs-string >&quot;Fido&quot;</span>);
+rex = Dog(<span class=hljs-string >&quot;Rex&quot;</span>);
+whiskers = Cat(<span class=hljs-string >&quot;Whiskers&quot;</span>);
+spots = Cat(<span class=hljs-string >&quot;Spots&quot;</span>);
+
+encounter(fido, rex)
+encounter(rex, whiskers)
+encounter(spots, fido)
+encounter(whiskers, spots)</code></pre>
+<pre><code class="plaintext hljs">Fido meets Rex and sniffs
+Rex meets Whiskers and chases
+Spots meets Fido and hisses
+Whiskers meets Spots and slinks
+</code></pre>
+<blockquote>
+<p>Note, in Julia all functions are written form the base, like &#43;&#40;x::llvm,y::llvm&#41; &#61; some llvm code</p>
+</blockquote>
+<p><strong>Generic functions an Any type</strong></p>
+<p>To control the types for multiple dispatch, there exists a hierarchy for types in julia, ie. Julia uses the more abstract definition if the exact combination is not present. </p>
+<p><strong>Any</strong> is a maximal subtype of every Julia type, and a fallback for any inputs. &#40;But, there must be a generic function for any to use otherwise type ambiguities may arise&#41;</p>
+<pre><code class="julia hljs">f(x::<span class=hljs-built_in >Any</span>,y::<span class=hljs-built_in >Any</span>) = x+y</code></pre>
+
+<p><strong>Ambiguities</strong></p>
+<h3 id=one_hot_vector_example ><a href="#one_hot_vector_example" class=header-anchor >One Hot Vector Example</a></h3>
+<p>This powerful example shows how useful mutiple dispatch is to just make the function for an new type for some argument and it works.</p>
+<div class=page-foot >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Gaurav Joshi. Last modified: July 02, 2023.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+</div>
+    </div> 
+    </div> 
+    </div> <!-- end of class page-wrap-->
+    
+    
+      <script src="/SciComp/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>

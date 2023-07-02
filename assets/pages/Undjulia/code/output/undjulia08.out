@@ -1,0 +1,19 @@
+MethodInstance for Main.FD_SANDBOX_1674606513742163371.g(::Int64, ::Float64)
+  from g(x, y) @ Main.FD_SANDBOX_1674606513742163371 none:1
+Arguments
+  #self#::Core.Const(Main.FD_SANDBOX_1674606513742163371.g)
+  x::Int64
+  y::Float64
+Locals
+  d::Int64
+  c::Int64
+  b::Int64
+  a::Int64
+Body::Float64
+1 ─      (a = 4)
+│        (b = 2)
+│        (c = Main.FD_SANDBOX_1674606513742163371.f(x, a::Core.Const(4)))
+│        (d = Main.FD_SANDBOX_1674606513742163371.f(b::Core.Const(2), c))
+│   %5 = Main.FD_SANDBOX_1674606513742163371.f(d, y)::Float64
+└──      return %5
+
