@@ -1,5 +1,5 @@
 ;  @ none:1 within `f`
-define i64 @julia_f_1158(i64 signext %0, i64 signext %1) #0 {
+define i64 @julia_f_1162(i64 signext %0, i64 signext %1) #0 {
 top:
 ; ┌ @ int.jl:87 within `+`
    %2 = add i64 %1, %0
