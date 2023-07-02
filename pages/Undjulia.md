@@ -9,7 +9,8 @@ tags = ["syntax", "code"]
 
 # Understanding Julia
 
-Attach image
+<!-- ![Julia_Logo](https://github.com/Gaurav17Joshi/SciComp/blob/main/pages/images/julia_logo.png) -->
+![Julia_Logo](https://upload.wikimedia.org/wikipedia/commons/1/1f/Julia_Programming_Language_Logo.svg)
 
 \toc
 
